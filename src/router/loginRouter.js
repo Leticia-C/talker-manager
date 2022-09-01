@@ -1,13 +1,12 @@
 const express = require('express');
-// const { generateToken } = require('../readAndWritte');
-const crypto = require('crypto');
+const { generateToken } = require('../readAndWritte');
 const { emailValidation } = require('../middleware/emailValidation');
 const { passwordValidation } = require('../middleware/passwordValidation');
 
 const loginRouter = express.Router();
 
-loginRouter.post('/', emailValidation, passwordValidation, (req, res) => {
-   const result = crypto.randomBytes(8).toString('hex');
+loginRouter.post('/', emailValidation, passwordValidation, async (req, res) => {
+     const result = generateToken();
     res.status(200).json({ token: result });
   });
 
