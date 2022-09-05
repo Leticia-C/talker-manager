@@ -1,6 +1,5 @@
 const mandatoryValidations = (req, res, next) => {
-    const { talk } = req.body;
-   const { watchedAt, rate } = talk;
+   const { watchedAt, rate } = req.body.talk;
     if (!watchedAt) {
         return res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' });
     }

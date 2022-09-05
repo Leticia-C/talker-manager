@@ -31,4 +31,22 @@ talkerRouter.get('/', async (req, res) => {
    res.status(201).json(talker);
   });
 
+/* alkerRouter.delete('/:id', tokenValidation, async (req, res) => {
+  const { id } = req.params;
+  const talker = await readTalker();
+  const arrayPosition = talker.findIndex((team) => team.id === Number(id));
+  talker.splice(arrayPosition, 1);
+  res.status(204).end();
+});
+
+talkerRouter.get('/search', tokenValidation, async (req, res) => {
+  const { name } = req.body;
+  const { q } = req.query;
+  const talker = await readTalker();
+  if (name in q) {
+  return res.status(200).json([]);
+   } 
+  return res.status(200).json(talker);
+}); */
+
 module.exports = talkerRouter;

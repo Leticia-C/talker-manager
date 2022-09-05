@@ -14,12 +14,16 @@ const getATalkerById = async (id) => {
 const generateToken = () => crypto.randomBytes(8).toString('hex');
 
 const createNewTalker = async (newTalker) => {
-    const data = await readTalker();    
-    const lastId = data.length; 
-    const talker = { id: lastId + 1, ...newTalker };
-    data.push(talker);
-    await fs.writeFile('./src/talker.json', JSON.stringify(data));
-    return talker;
+    try {
+        const data = await readTalker();    
+        const lastId = data.length; 
+        const talker = { id: lastId + 1, ...newTalker };
+        data.push(talker);
+        await fs.writeFile('./src/talker.json', JSON.stringify(data));
+        return talker;
+    } catch (error) {
+        console.error(error);
+    }    
  };
 
 module.exports = {
