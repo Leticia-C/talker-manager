@@ -26,9 +26,26 @@ const createNewTalker = async (newTalker) => {
     }    
  };
 
+ const putTalker = async (id, body) => {
+try {
+     const talkers = await readTalker();
+    const talker = talkers.find((t) => t.id === id);
+    if (talker) {
+      const index = talkers.indexOf(talker);
+      const updated = { id, ...body };
+     talkers.splice(index, 1, updated);
+     await fs.writeFile('./src/talker.json', JSON.stringify(talkers));
+     return updated; 
+}
+} catch (error) {
+    console.error(error);
+}
+ };
+
 module.exports = {
     readTalker,
     getATalkerById,
     generateToken,
     createNewTalker,
+    putTalker,
 };
