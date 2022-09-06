@@ -1,5 +1,5 @@
 const express = require('express');
-const { readTalker, getATalkerById, createNewTalker, putTalker } = require('../readAndWritte');
+const { readTalker, getATalkerById, createNewTalker, putTalker, deleteTalker } = require('../readAndWritte');
 const { tokenValidation } = require('../middleware/tokenValidation');
 const { userValidation } = require('../middleware/userValidation');
 const { watchedAtValidation, rateValidations } = require('../middleware/valuesValidation');
@@ -35,6 +35,12 @@ talkerRouter.put('/:id', tokenValidation, userValidation,
   const id = Number(req.params.id);
     const talker = await putTalker(id, req.body);
     res.status(200).json(talker);
+});
+
+talkerRouter.delete('/:id', tokenValidation, async (req, res) => {
+  const id = Number(req.params.id);
+  await deleteTalker(id);
+   res.sendStatus(204);
 });
 
 module.exports = talkerRouter;

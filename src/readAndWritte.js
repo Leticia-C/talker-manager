@@ -16,7 +16,7 @@ const generateToken = () => crypto.randomBytes(8).toString('hex');
 const createNewTalker = async (newTalker) => {
     try {
         const data = await readTalker();    
-        const lastId = data.length; 
+        const lastId = data.reduce((acc, cur) => (acc.id > cur.id ? acc.id : cur.id)); 
         const talker = { id: lastId + 1, ...newTalker };
         data.push(talker);
         await fs.writeFile('./src/talker.json', JSON.stringify(data));
@@ -42,10 +42,20 @@ try {
 }
  };
 
+ const deleteTalker = async (id) => {
+    const talkers = await readTalker();
+    const talker = talkers.find((t) => t.id === id);
+      const index = talkers.indexOf(talker);
+     talkers.splice(index, 2);
+     await fs.writeFile('./src/talker.json', JSON.stringify(talkers));
+     return talkers;
+ };
+
 module.exports = {
     readTalker,
     getATalkerById,
     generateToken,
     createNewTalker,
     putTalker,
+    deleteTalker,
 };
