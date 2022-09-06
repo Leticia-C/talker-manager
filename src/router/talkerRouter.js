@@ -2,9 +2,8 @@ const express = require('express');
 const { readTalker, getATalkerById, createNewTalker, putTalker } = require('../readAndWritte');
 const { tokenValidation } = require('../middleware/tokenValidation');
 const { userValidation } = require('../middleware/userValidation');
-const { valuesValidation } = require('../middleware/valuesValidation');
+const { watchedAtValidation, rateValidations } = require('../middleware/valuesValidation');
 const { talkValidation } = require('../middleware/talkValidation');
-const { mandatoryValidations } = require('../middleware/mandatoryValidations');
 
 const talkerRouter = express.Router();
 
@@ -26,13 +25,13 @@ talkerRouter.get('/', async (req, res) => {
   });
 
   talkerRouter.post('/', tokenValidation, userValidation, 
-   talkValidation, mandatoryValidations, valuesValidation, async (req, res) => {
+   talkValidation, watchedAtValidation, rateValidations, async (req, res) => {
     const talker = await createNewTalker(req.body);
    res.status(201).json(talker);
   });
 
 talkerRouter.put('/:id', tokenValidation, userValidation, 
-talkValidation, mandatoryValidations, valuesValidation, async (req, res) => {
+ talkValidation, watchedAtValidation, rateValidations, async (req, res) => {
   const id = Number(req.params.id);
     const talker = await putTalker(id, req.body);
     res.status(200).json(talker);
