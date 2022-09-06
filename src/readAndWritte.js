@@ -51,6 +51,16 @@ try {
      return talkers;
  };
 
+ const getATalkerByName = async (q) => {
+    const data = await readTalker();
+    if (q) {
+      data.filter((activity) => activity.name.includes(q));
+    }
+    if (!q) {
+       return data;
+    }
+};
+
 module.exports = {
     readTalker,
     getATalkerById,
@@ -58,4 +68,5 @@ module.exports = {
     createNewTalker,
     putTalker,
     deleteTalker,
+    getATalkerByName,
 };
