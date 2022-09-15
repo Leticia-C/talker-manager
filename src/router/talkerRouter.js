@@ -1,6 +1,6 @@
 const express = require('express');
 const { readTalker, getATalkerById,
-   createNewTalker, putTalker, deleteTalker, getATalkerByName } = require('../readAndWritte');
+   createNewTalker, putTalker, deleteTalker, getTalkerByName } = require('../readAndWritte');
 const { tokenValidation } = require('../middleware/tokenValidation');
 const { userValidation } = require('../middleware/userValidation');
 const { watchedAtValidation, rateValidations } = require('../middleware/valuesValidation');
@@ -15,6 +15,12 @@ talkerRouter.get('/', async (req, res) => {
      } 
     return res.status(200).json(talker);
   });
+
+  talkerRouter.get('/search', tokenValidation, async (req, res) => {
+    const { q } = req.query;
+    const talker = await getTalkerByName(q);
+    res.status(200).json(talker);
+   });
 
   talkerRouter.get('/:id', async (req, res) => {
     const { id } = req.params;
@@ -42,12 +48,6 @@ talkerRouter.delete('/:id', tokenValidation, async (req, res) => {
   const id = Number(req.params.id);
   await deleteTalker(id);
    res.sendStatus(204);
-});
-
-talkerRouter.get('/search/q?', tokenValidation, async (req, res) => {
- const { q } = req.query;
- const talker = await getATalkerByName(q);
-res.status(200).json(talker);
 });
 
 module.exports = talkerRouter;

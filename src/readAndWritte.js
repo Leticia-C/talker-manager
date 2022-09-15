@@ -51,14 +51,12 @@ try {
      return talkers;
  };
 
- const getATalkerByName = async (q) => {
+ const getTalkerByName = async (q) => {
     const data = await readTalker();
-    if (q) {
-      data.filter((activity) => activity.name.includes(q));
-    }
-    if (!q) {
+    if (q === null) {
        return data;
     }
+    return data.filter((activity) => activity.name.includes(q));
 };
 
 module.exports = {
@@ -68,5 +66,5 @@ module.exports = {
     createNewTalker,
     putTalker,
     deleteTalker,
-    getATalkerByName,
+    getTalkerByName,
 };
